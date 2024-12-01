@@ -2,26 +2,16 @@ import sys
 
 data = sys.stdin.read().splitlines()
 
-l = sorted([int(a) for a, _ in (line.split("   ") for line in data)])
-r = sorted([int(b) for _, b in (line.split("   ") for line in data)])
+left = sorted([int(a) for a, _ in (line.split("   ") for line in data)])
+right = sorted([int(b) for _, b in (line.split("   ") for line in data)])
 
-res = 0
-for l_i, r_i in zip(l, r):
-    res += abs(l_i - r_i)
+res1 = sum(abs(l - r) for l, r in zip(left, right))
 
-print("Part 1:", res)
+print("Part 1:", res1)
 
-l_dict = {}
-for i in set(l):
-    l_dict[i] = l.count(i)
+l_dict = {n: left.count(n) for n in set(left)}
+r_dict = {n: right.count(n) for n in set(right)}
 
-r_dict = {}
-for i in set(r):
-    r_dict[i] = r.count(i)
-
-res2 = 0
-for k, v in l_dict.items():
-    if k in r_dict:
-        res2 += v * k * r_dict[k]
+res2 = sum(v * k * r_dict[k] for k, v in l_dict.items() if k in r_dict)
 
 print("Part 2:", res2)
