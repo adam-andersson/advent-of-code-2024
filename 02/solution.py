@@ -10,7 +10,7 @@ def validate(r):
     if r == row_asc or r == row_dec:
         for i in range(1, len(row_asc)):
             diff = row_asc[i] - row_asc[i - 1]
-            if diff != 1 and diff != 2 and diff != 3:
+            if not diff in {1, 2, 3}:
                 return False
         return True
 
@@ -27,4 +27,4 @@ for line in data:
     row = [int(n) for n in line.split(" ")]
     res2 += 1 if any([validate(row[:i] + row[i + 1 :]) for i in range(len(row))]) else 0
 
-print("Part 2:", res1)
+print("Part 2:", res2)
