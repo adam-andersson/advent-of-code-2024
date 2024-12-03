@@ -19,13 +19,12 @@ dont_start_indices = set([g.span()[0] for g in re.finditer(r"don't\(\)", data)])
 
 res2 = 0
 active = True
-for i in range(len(data)):
+for i, _ in enumerate(data):
     if active:
         if i in dont_start_indices:
             active = False
             continue
-        if i in muls:
-            res2 += muls[i]
+        res2 += muls.get(i, 0)
     if not active:
         if i in do_start_indices:
             active = True
