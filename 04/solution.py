@@ -43,5 +43,39 @@ for r, row in enumerate(grid):
 
 print("Part 1:", res1)
 
-res2 = None
+res2 = 0
+p2_dirs = [directions["NW"], directions["NE"], directions["SW"], directions["SE"]]
+happy_set = set(["M", "S"])
+
+for r, row in enumerate(grid):
+    for c, cell in enumerate(row):
+        if not cell == "A":
+            continue
+
+        if all(
+            [
+                (0 <= r + dir[0] < len(grid) and 0 <= c + dir[1] < len(grid[0]))
+                for dir in p2_dirs
+            ]
+        ):
+            NWSE = set(
+                [
+                    grid[r + directions["NW"][0]][c + directions["NW"][1]],
+                    grid[r + directions["SE"][0]][c + directions["SE"][1]],
+                ]
+            )
+
+            if not NWSE == happy_set:
+                continue
+
+            NESW = set(
+                [
+                    grid[r + directions["NE"][0]][c + directions["NE"][1]],
+                    grid[r + directions["SW"][0]][c + directions["SW"][1]],
+                ]
+            )
+            if NESW == happy_set:
+                res2 += 1
+
+
 print("Part 2:", res2)
