@@ -30,18 +30,25 @@ def solve_lin_eq(eq1, eq2):
     return a, b
 
 
-res1 = 0
+res1, res2 = 0, 0
 for i in range(0, len(data), 4):
     a_btn = tuple(map(int, [x.split("+")[-1] for x in data[i].split(", ")]))
     b_btn = tuple(map(int, [x.split("+")[-1] for x in data[i + 1].split(", ")]))
     target1, target2 = tuple(
         map(int, [x.split("=")[-1] for x in data[i + 2].split(", ")])
     )
-    solution = solve_lin_eq(
-        (a_btn[0], b_btn[0], target1), (a_btn[1], b_btn[1], target2)
-    )
 
-    if solution:
-        res1 += solution[0] * 3 + solution[1]
+    for part in (1, 2):
+        solution = solve_lin_eq(
+            (a_btn[0], b_btn[0], target1 + (0 if part == 1 else 10000000000000)),
+            (a_btn[1], b_btn[1], target2 + (0 if part == 1 else 10000000000000)),
+        )
+
+        if solution:
+            if part == 1:
+                res1 += solution[0] * 3 + solution[1]
+            elif part == 2:
+                res2 += solution[0] * 3 + solution[1]
 
 print("Part 1:", res1)
+print("Part 2:", res2)
